@@ -1,0 +1,19 @@
+{
+  "name": "devtinder-nodeserver",
+  "version": "1.0.0",
+  "description": "Connect Devs here",
+  "main": "index.js",
+  "scripts": {
+   "start": "node app.js",
+   "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "Node.js",
+    "Javascript"
+  ],
+  "author": "Dinesh Kumar",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
