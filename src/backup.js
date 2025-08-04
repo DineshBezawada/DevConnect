@@ -53,22 +53,11 @@ app.use(
   (req, res, next) => {
     console.log("1st Details Response");
     next();
-    // res.send("1st Success");
+    res.send("1st Success");
   },
-  (req, res, next) => {
+  (req, res) => {
     console.log("2nd Details Response");
-    // res.send("2nd Success");
-    next();
-  },
-  (req, res, next) => {
-    console.log("3rd Details Response");
-    // res.send("2nd Success");
-    next();
-  },
-  (req, res, next)=>{
-    console.log("4th Details Response");
-    res.send("4nd Success");
-    // next();
+    res.send("2nd Success");
   }
 );
 
