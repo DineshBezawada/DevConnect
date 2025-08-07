@@ -48,18 +48,42 @@ const PORT = process.env.PORT || 4444;
 // 04/08/2025
 // Route Handlers, multiple Route handlers
 
-app.use(
-  "/myDetails",
-  (req, res, next) => {
-    console.log("1st Details Response");
-    next();
-    res.send("1st Success");
-  },
-  (req, res) => {
-    console.log("2nd Details Response");
-    res.send("2nd Success");
-  }
-);
+// app.use(
+//   "/myDetails",
+//   (req, res, next) => {
+//     console.log("1st Details Response");
+//     next();
+//     res.send("1st Success");
+//   },
+//   (req, res) => {
+//     console.log("2nd Details Response");
+//     res.send("2nd Success");
+//   }
+// );
+
+// app.use(
+//   "/myDetails",
+//   (req, res, next) => {
+//     console.log("1st Details Response");
+//     next();
+//     // res.send("1st Success");
+//   },
+//   (req, res, next) => {
+//     console.log("2nd Details Response");
+//     // res.send("2nd Success");
+//     next();
+//   },
+//   (req, res, next) => {
+//     console.log("3rd Details Response");
+//     // res.send("2nd Success");
+//     next();
+//   },
+//   (req, res, next)=>{
+//     console.log("4th Details Response");
+//     res.send("4nd Success");
+//     // next();
+//   }
+// );
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

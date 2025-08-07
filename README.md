@@ -55,5 +55,9 @@ S02 Ep04 :- Routing and Request Handlers (03/08/2025)
 9. Reading the query params in the routes
 10. Reading the Dynamic Routes
 
-
+S02 Ep05 :-
+1. Multiple Route handlers - Play with the code 
+2. next() inside route handlers
+3. next function and errors along with res.send()
+4. app.use('/user', rH1,[rH2,rH3],rH4,rH5);
 
