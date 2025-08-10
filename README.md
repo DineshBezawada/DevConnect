@@ -186,5 +186,18 @@ Use app.all() when you want to handle any HTTP method for a specific path.
 8. Write dummy middleware for admin
 9. Write dummy middleware for all user routes except /user/login
 10. Error Handling
-11. Global error Handling using Middleware (app.use('/'))
+11. Global error Handling using Middleware (app.use('/'),(err,req,res,next)=>{});
 12. Error Handling for each route using try catch blocks.
+
+S02 EP06 :- Schema and Models - Mongoose
+
+1. Install mongoose Library (npm i mongoose).
+2. import and connect to DB using mongoose.connect
+3. add devTinder name to URI string to create new database inside a cluster
+4. Connect to DB in an asynchronous way async await and use then catch
+5. Now first port is connecting and then DB 
+6. So inorder to overcome this import connectDB (aync fn) to app.js and conncet 
+7. Create a user Schema & user Modal  
+8. Create /signup API to add data to API
+9. Push some documents using code and API calls from Postman
+10. Error handling using try catch 
