@@ -40,13 +40,13 @@ app.post("/login", async (req, res) => {
     }
     const user = await User.findOne({ emailId: emailId });
     if (!user) {
-      throw new Error("EMail is not Present in DB");
+      throw new Error("Invalid Credentials");
     }
-    const isPasswordvalid = bcrypt.compare(password, user.password);
+    const isPasswordvalid = await bcrypt.compare(password, user.password);
     if (isPasswordvalid) {
       res.send("User Login Successful");
     } else {
-      throw new Error("Password is Incorrect");
+      throw new Error("Invalid Credentials");
     }
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);

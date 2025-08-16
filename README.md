@@ -351,3 +351,4 @@ S02 EP09 Encrypting Passwords
 3. Crete passwordHash using bcrypt.hash
 4. Save he user with Encrypted passwords
 5. Create login Api
+6. Compare passwords and throw errors if Email or Password are Invalid.
