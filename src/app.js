@@ -4,15 +4,52 @@ const User = require("./models/user");
 const app = express();
 const PORT = process.env.PORT || 4444;
 app.use(express.json());
+const { validateSignUp } = require("./utils/validation");
+const bcrypt = require("bcrypt");
+const validator = require("validator");
 
 app.post("/signup", async (req, res) => {
-  console.log(req.body);
-  const user = new User(req.body);
+  // Validation for Required fields
+  // Never trust req.body
+  validateSignUp(req);
+  // Encrypt Passwords using bcrypt library
+  const { firstName, lastName, emailId, password } = req.body;
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  // Creating new Model of user Instance
+  const user = new User({
+    firstName,
+    lastName,
+    emailId,
+    password: passwordHash,
+  });
+
   try {
     await user.save();
     res.send("User Saved Successfully");
   } catch (err) {
     res.status(400).send("User save Failes" + err.toString());
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    if (!validator.isEmail(emailId)) {
+      throw new Error("Pls Enter Valid EmailId");
+    }
+    const user = await User.findOne({ emailId: emailId });
+    if (!user) {
+      throw new Error("EMail is not Present in DB");
+    }
+    const isPasswordvalid = bcrypt.compare(password, user.password);
+    if (isPasswordvalid) {
+      res.send("User Login Successful");
+    } else {
+      throw new Error("Password is Incorrect");
+    }
+  } catch (err) {
+    res.status(400).send("ERROR : " + err.message);
   }
 });
 
@@ -36,8 +73,8 @@ app.get("/feed", async (req, res) => {
   }
 });
 
-app.delete("/deleteUser", async (req, res) => {
-  const userId = req.body.id;
+app.delete("/deleteUser/:userId", async (req, res) => {
+  const userId = req.params.userId;
   try {
     const user = await User.findById(userId);
     await User.findByIdAndDelete(userId);
@@ -46,18 +83,32 @@ app.delete("/deleteUser", async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 });
-app.patch("/updateUser", async (req, res) => {
+app.patch("/updateUser/:userId", async (req, res) => {
   console.time();
-  const userId = req.body.id;
-  const upadatedData = {
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    age: req.body.age,
-    gender : req.body.gender
-  };
+  const userId = req.params.userId;
+  const ALLOWED_UPDATES = [
+    "firstName",
+    "lastName",
+    "age",
+    "gender",
+    "about",
+    "photoUrl",
+    "skills",
+  ];
+  const isAllowed = Object.keys(req.body)?.every((item) =>
+    ALLOWED_UPDATES.includes(item)
+  );
+
   try {
+    if (!isAllowed) {
+      throw new Error(" Update not allowed");
+    }
+
+    if (req.body?.skills?.length > 5) {
+      throw new Error("Only 5 skills are allowed");
+    }
     // findByIdAndUpdate(id, ...) is equivalent to findOneAndUpdate({ _id: id }, ...)
-    const user = await User.findByIdAndUpdate(userId, upadatedData, {
+    const user = await User.findByIdAndUpdate(userId, req.body, {
       returnDocument: "after",
       runValidators: true, // For running caustom validate function in Schema  Model.
     });

@@ -333,3 +333,21 @@ For user profile updates, settings, etc., prefer PATCH.
 Use PUT only if you control the full data and know what you're replacing.
 
 8. Explore the Mongoose Model Documentation
+
+ S02 EP08 Data Sanitization and Schema validation
+1. Explore the Schema Types options from the Documentation.
+2. add required, unique, lowercase, minLength,maxLength, min,max, trim, validate function and timestamps
+3. add default
+4. Improve DB schema and add Appropriate validations for Schema
+5. Add API level validation for PATCH and POST 
+6. Data Sanitizing - Add API validation for each field 
+7. Install Validator
+8. Add validations using Validators in both Schema and APIs
+9. NEVER TRUST req.body
+
+S02 EP09 Encrypting Passwords
+1. Validate SignUp API
+2. Install bcrypt package
+3. Crete passwordHash using bcrypt.hash
+4. Save he user with Encrypted passwords
+5. Create login Api
