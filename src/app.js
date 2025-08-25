@@ -3,10 +3,15 @@ const { connectToDB } = require("./config/database");
 const User = require("./models/user");
 const app = express();
 const PORT = process.env.PORT || 4444;
-app.use(express.json());
 const { validateSignUp } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async (req, res) => {
   // Validation for Required fields
@@ -15,7 +20,7 @@ app.post("/signup", async (req, res) => {
   // Encrypt Passwords using bcrypt library
   const { firstName, lastName, emailId, password } = req.body;
   const passwordHash = await bcrypt.hash(password, 10);
-
+  console.log(firstName, lastName, emailId, password, "test");
   // Creating new Model of user Instance
   const user = new User({
     firstName,
@@ -44,6 +49,8 @@ app.post("/login", async (req, res) => {
     }
     const isPasswordvalid = await bcrypt.compare(password, user.password);
     if (isPasswordvalid) {
+      const token = await jwt.sign({ _id: user._id }, "devConnectSecret@007");
+      res.cookie("token", token);
       res.send("User Login Successful");
     } else {
       throw new Error("Invalid Credentials");
@@ -53,21 +60,42 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/profile", async (req, res) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      throw new Error("Invalid Token Pls Login Again");
+    }
+    const {_id} = jwt.verify(token, "devConnectSecret@007");
+    // const {_id} = decodedMsg;
+    console.log(req.cookies, "Cookies");
+    // console.log(decodedMsg, "decodedCookie");
+
+    const user = await User.findById(_id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.send({ user: user, msg: "User Profile Successful" });
+  } catch (err) {
+    res.status(500).send("Something went wrong");
+  }
+});
+
+app.get("/feed", async (req, res) => {
+  try {
+    const allUsers = await User.find({});
+    res.send(allUsers);
+  } catch (err) {
+    res.status(500).send("Something went wrong");
+  }
+});
+
 app.get("/feed/:id", async (req, res) => {
   console.log(req.params, "Params");
   try {
     const id = req.params.id;
     const userInfo = await User.findById(id);
     res.send(userInfo);
-  } catch (err) {
-    res.status(500).send("Something went wrong");
-  }
-});
-app.get("/feed", async (req, res) => {
-  console.log(req.params, "Params");
-  try {
-    const allUsers = await User.find();
-    res.send(allUsers);
   } catch (err) {
     res.status(500).send("Something went wrong");
   }

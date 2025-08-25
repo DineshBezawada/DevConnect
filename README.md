@@ -349,6 +349,20 @@ S02 EP09 Encrypting Passwords
 1. Validate SignUp API
 2. Install bcrypt package
 3. Crete passwordHash using bcrypt.hash
-4. Save he user with Encrypted passwords
+4. Save the user data with Encrypted passwords
 5. Create login Api
 6. Compare passwords and throw errors if Email or Password are Invalid.
+
+S02 EP10 Authentication JWT and Cookies
+1. Install cookie-parser use it as middleware.
+2. How Server and Client works (read the notes and Documentation).
+3. Sending cookies and accesing cookies (sending a dummy token).43. res.cookie and req.cookies
+4. Create GET /profile  API check cookie back.
+5. Install "jsonwebtoken" package
+6. 3 parts of JWT token 1.Header 2. payload 3. Signature
+7. Sending Id and secret key to JWT and get the token.
+8. In Login API, after validation create JWT token and send it to user in cookie.
+9. Read the cookies inside your profile API and find the Logged User.
+
+
+
