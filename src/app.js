@@ -8,6 +8,7 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const { userAuth } = require('./middlewares/auth');
 
 // Middleware
 app.use(express.json());
@@ -60,22 +61,22 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/profile", async (req, res) => {
+app.get("/profile",userAuth, async (req, res) => {
   try {
-    const { token } = req.cookies;
-    if (!token) {
-      throw new Error("Invalid Token Pls Login Again");
-    }
-    const {_id} = jwt.verify(token, "devConnectSecret@007");
-    // const {_id} = decodedMsg;
-    console.log(req.cookies, "Cookies");
-    // console.log(decodedMsg, "decodedCookie");
+    // const { token } = req.cookies;
+    // if (!token) {
+    //   throw new Error("Invalid Token Pls Login Again");
+    // }
+    // const {_id} = jwt.verify(token, "devConnectSecret@007");
+    // // const {_id} = decodedMsg;
+    // console.log(req.cookies, "Cookies");
+    // // console.log(decodedMsg, "decodedCookie");
 
-    const user = await User.findById(_id);
-    if (!user) {
-      throw new Error("User not found");
-    }
-    res.send({ user: user, msg: "User Profile Successful" });
+    // const user = await User.findById(_id);
+    // if (!user) {
+    //   throw new Error("User not found");
+    // }
+    res.send({ user: req.user, msg: "User Profile Successful" });
   } catch (err) {
     res.status(500).send("Something went wrong");
   }
