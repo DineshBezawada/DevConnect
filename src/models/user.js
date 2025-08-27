@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const about = () => {
   return "I'm DK from OGL";
@@ -69,6 +71,20 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+ // Don't use arrow function  because we're using "this" 
+ userSchema.methods.getJWT = async function(){
+  const user = this;
+  const token = await jwt.sign({ _id: user._id }, "devConnectSecret@007",{expiresIn : '1h'});
+  return token;
+ };
+
+  // Don't use arrow function
+ userSchema.methods.validatePassword = async function(passwordByUser){
+  const user = this;
+  const passwordHash = user.password;
+  const isPasswordvalid = await bcrypt.compare(passwordByUser, passwordHash);
+  return isPasswordvalid;
+ }
 // const UserModel = mongoose.model("User",userSchema);
 // module.exports = UserModel;
 

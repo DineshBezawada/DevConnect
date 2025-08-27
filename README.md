@@ -366,6 +366,9 @@ S02 EP10 Authentication JWT and Cookies
 10. userAuth Middleware 
 11. Add the userAuth middleware in Profile API and sendConnectionRequest APIs
 12. Set the expiry of JWT token and cookies to 7 days.
+    Schema Methods 
+13. Create Schema Method to getJWT();
+14. Create Schema Method for validatePassword()
 
 
 
