@@ -63,97 +63,12 @@ app.post("/login", async (req, res) => {
 
 app.get("/profile",userAuth, async (req, res) => {
   try {
-    // const { token } = req.cookies;
-    // if (!token) {
-    //   throw new Error("Invalid Token Pls Login Again");
-    // }
-    // const {_id} = jwt.verify(token, "devConnectSecret@007");
-    // // const {_id} = decodedMsg;
-    // console.log(req.cookies, "Cookies");
-    // // console.log(decodedMsg, "decodedCookie");
-
-    // const user = await User.findById(_id);
-    // if (!user) {
-    //   throw new Error("User not found");
-    // }
     res.send({ user: req.user, msg: "User Profile Successful" });
   } catch (err) {
     res.status(500).send("Something went wrong");
   }
 });
 
-app.get("/feed", async (req, res) => {
-  try {
-    const allUsers = await User.find({});
-    res.send(allUsers);
-  } catch (err) {
-    res.status(500).send("Something went wrong");
-  }
-});
-
-app.get("/feed/:id", async (req, res) => {
-  console.log(req.params, "Params");
-  try {
-    const id = req.params.id;
-    const userInfo = await User.findById(id);
-    res.send(userInfo);
-  } catch (err) {
-    res.status(500).send("Something went wrong");
-  }
-});
-
-app.delete("/deleteUser/:userId", async (req, res) => {
-  const userId = req.params.userId;
-  try {
-    const user = await User.findById(userId);
-    await User.findByIdAndDelete(userId);
-    res.send({ user: user, msg: "User Deleted Successfully" });
-  } catch (err) {
-    res.status(500).send("Something went wrong");
-  }
-});
-app.patch("/updateUser/:userId", async (req, res) => {
-  console.time();
-  const userId = req.params.userId;
-  const ALLOWED_UPDATES = [
-    "firstName",
-    "lastName",
-    "age",
-    "gender",
-    "about",
-    "photoUrl",
-    "skills",
-  ];
-  const isAllowed = Object.keys(req.body)?.every((item) =>
-    ALLOWED_UPDATES.includes(item)
-  );
-
-  try {
-    if (!isAllowed) {
-      throw new Error(" Update not allowed");
-    }
-
-    if (req.body?.skills?.length > 5) {
-      throw new Error("Only 5 skills are allowed");
-    }
-    // findByIdAndUpdate(id, ...) is equivalent to findOneAndUpdate({ _id: id }, ...)
-    const user = await User.findByIdAndUpdate(userId, req.body, {
-      returnDocument: "after",
-      runValidators: true, // For running caustom validate function in Schema  Model.
-    });
-    // Or
-    // const user = await User.findOneAndUpdate({ _id: userId }, upadatedData, {
-    //   returnDocument: "after",
-    // });
-
-    // According to official Mongoose Docs above 2 will work in a same way.
-
-    res.send({ user: user, msg: "User Details Updated Successfully" });
-  } catch (err) {
-    res.status(500).send("Something went wrong" + err.message);
-  }
-  console.timeEnd();
-});
 
 connectToDB()
   .then(() => {
