@@ -363,6 +363,10 @@ S02 EP10 Authentication JWT and Cookies
 7. Sending Id and secret key to JWT and get the token.
 8. In Login API, after validation create JWT token and send it to user in cookie.
 9. Read the cookies inside your profile API and find the Logged User.
+10. userAuth Middleware 
+11. Add the userAuth middleware in Profile API and sendConnectionRequest APIs
+12. Set the expiry of JWT token and cookies to 7 days.
+
 
 
 
