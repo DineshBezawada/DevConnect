@@ -14,7 +14,6 @@
 ## Connection Request Router
 - POST/request/send/interesed/:requestId
 - POST/request/send/rejected/:requestId
-
 - POST/request/review/accepted/:requestId
 - POST/request/review/rejected/:requestId
    

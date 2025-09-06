@@ -374,6 +374,11 @@ S02 EP11 Diving into APIs and Express Router
 1. Explore Tinder APIs
 2. Create a list of All APIs you can think of in your mind.
 3. Group multiple routes under respective Routers.
+4. Read documentation for express.Router().
+5. Create Routes folder for managing auth,profile and request routers.
+6. Create authRouter, profileRouter,requsetRouter
+7. Import these routers in app.js 
+
 
 
 
