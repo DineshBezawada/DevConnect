@@ -368,8 +368,12 @@ S02 EP10 Authentication JWT and Cookies
 12. Set the expiry of JWT token and cookies to 7 days.
     Schema Methods 
 13. Create Schema Method to getJWT();
-14. Create Schema Method for validatePassword()
+14. Create Schema Method for validatePassword();
 
+S02 EP11 Diving into APIs and Express Router
+1. Explore Tinder APIs
+2. Create a list of All APIs you can think of in your mind.
+3. Group multiple routes under respective Routers.
 
 
 

@@ -49,7 +49,7 @@ app.post("/login", async (req, res) => {
       throw new Error("Invalid Credentials");
     }
     // const isPasswordvalid = await bcrypt.compare(password, user.password);
-    const isPasswordvalid = await user.validatePassword(password);
+    const isPasswordvalid = await user.comparePassword(password);
     if (isPasswordvalid) {
       // const token = await jwt.sign({ _id: user._id }, "devConnectSecret@007",{expiresIn : '0d'});
       console.log(user, "user");

@@ -79,7 +79,7 @@ const userSchema = new mongoose.Schema(
  };
 
   // Don't use arrow function
- userSchema.methods.validatePassword = async function(passwordByUser){
+ userSchema.methods.comparePassword = async function(passwordByUser){
   const user = this;
   const passwordHash = user.password;
   const isPasswordvalid = await bcrypt.compare(passwordByUser, passwordHash);
