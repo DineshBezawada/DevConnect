@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-const validator = require('validator');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const validator = require("validator");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const about = () => {
   return "I'm DK from OGL";
@@ -25,11 +25,11 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
-      validate(value){
-        if(!validator.isEmail(value)){
-          throw new Error("Email is Invalid")
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("Email is Invalid");
         }
-      }
+      },
     },
     password: {
       type: String,
@@ -40,7 +40,8 @@ const userSchema = new mongoose.Schema(
       type: Number,
       min: 18,
       max: 85,
-      trim: true
+      trim: true,
+      required : true
     },
     gender: {
       type: String,
@@ -56,35 +57,47 @@ const userSchema = new mongoose.Schema(
       trim: true,
       default: about(),
     },
-    skills: [String],
+    skills: {
+      type: [String],
+      required: true,
+      validate(value) {
+        const isValid = Array.isArray(value) && value.length > 0
+        console.log(value,"isValid")
+        if(!isValid){
+          throw new Error("Skills are Mandatory")
+         }
+      },
+    },
 
-    photoUrl :{
-      type : String,
+    photoUrl: {
+      type: String,
       trim: true,
-      validate(value){
-        if(!validator.isURL(value)){
+      validate(value) {
+        if (!validator.isURL(value)) {
           throw new Error("Pls enter valid photoUrl");
         }
-      }
-    }
+      },
+    },
   },
   { timestamps: true }
 );
 
- // Don't use arrow function  because we're using "this" 
- userSchema.methods.getJWT = async function(){
+// Don't use arrow function  because we're using "this"
+userSchema.methods.getJWT = async function () {
   const user = this;
-  const token = await jwt.sign({ _id: user._id }, "devConnectSecret@007",{expiresIn : '1h'});
+  const token = await jwt.sign({ _id: user._id }, "devConnectSecret@007", {
+    expiresIn: "1h",
+  });
   return token;
- };
+};
 
-  // Don't use arrow function
- userSchema.methods.comparePassword = async function(passwordByUser){
+// Don't use arrow function
+userSchema.methods.comparePassword = async function (passwordByUser) {
   const user = this;
   const passwordHash = user.password;
   const isPasswordvalid = await bcrypt.compare(passwordByUser, passwordHash);
   return isPasswordvalid;
- }
+};
 // const UserModel = mongoose.model("User",userSchema);
 // module.exports = UserModel;
 

@@ -10,7 +10,7 @@ authRouter.post("/signup", async (req, res) => {
   // Never trust req.body
   validateSignUp(req);
   // Encrypt Passwords using bcrypt library
-  const { firstName, lastName, emailId, password } = req.body;
+  const { firstName, lastName, emailId, password, skills , age } = req.body;
   const passwordHash = await bcrypt.hash(password, 10);
   console.log(firstName, lastName, emailId, password, "test");
   // Creating new Model of user Instance
@@ -18,6 +18,8 @@ authRouter.post("/signup", async (req, res) => {
     firstName,
     lastName,
     emailId,
+    skills,
+    age,
     password: passwordHash,
   });
 
@@ -58,5 +60,17 @@ authRouter.post("/login", async (req, res) => {
     res.status(400).send("ERROR : " + err.message);
   }
 });
+
+authRouter.post('/logout',(req,res)=>{
+  try{
+    const {  token } = req.cookies;
+    res.cookie("token", null , {
+      expires: new Date(Date.now())
+    });
+    res.send("User Successfully Logged Out")
+  }catch(err){
+    res.status(500).send(`Error : ${err.message}`)
+  }
+})
 
 module.exports = authRouter;

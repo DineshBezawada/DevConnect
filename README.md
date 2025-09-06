@@ -378,6 +378,12 @@ S02 EP11 Diving into APIs and Express Router
 5. Create Routes folder for managing auth,profile and request routers.
 6. Create authRouter, profileRouter,requsetRouter
 7. Import these routers in app.js 
+8. Create post - logout API
+9. Create patch - profile/view (already there) 
+9. Create patch - profile/edit 
+10. Test all APIs
+11. Create PATCH - ForgotPassword (update Password) and test 
+
 
 
 
