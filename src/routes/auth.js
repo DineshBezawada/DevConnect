@@ -4,26 +4,33 @@ const authRouter = express.Router();
 const User = require("../models/user");
 const validator = require("validator");
 const { validateSignUp } = require("../utils/validation");
+const jwt = require('jsonwebtoken');
 
 authRouter.post("/signup", async (req, res) => {
-  // Validation for Required fields
-  // Never trust req.body
-  validateSignUp(req);
-  // Encrypt Passwords using bcrypt library
-  const { firstName, lastName, emailId, password, skills , age } = req.body;
-  const passwordHash = await bcrypt.hash(password, 10);
-  console.log(firstName, lastName, emailId, password, "test");
-  // Creating new Model of user Instance
-  const user = new User({
-    firstName,
-    lastName,
-    emailId,
-    skills,
-    age,
-    password: passwordHash,
-  });
-
   try {
+    // Validation for Required fields
+    // Never trust req.body
+    const { token } = req.cookies;
+    if(token) 
+    {
+      const decodedMsg = await jwt.verify(token,'devConnectSecret@007');
+      if(decodedMsg?._id){
+        throw new Error("Pls Logout to Signup for new User");
+      }
+    }
+    validateSignUp(req);
+    // Encrypt Passwords using bcrypt library
+    const { firstName, lastName, emailId, password, skills, age } = req.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+    // Creating new Model of user Instance
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      skills,
+      age,
+      password: passwordHash,
+    });
     await user.save();
     res.send("User Saved Successfully");
   } catch (err) {
@@ -45,7 +52,6 @@ authRouter.post("/login", async (req, res) => {
     const isPasswordvalid = await user.comparePassword(password);
     if (isPasswordvalid) {
       // const token = await jwt.sign({ _id: user._id }, "devConnectSecret@007",{expiresIn : '0d'});
-      console.log(user, "user");
       const token = await user.getJWT();
 
       res.cookie("token", token, {
@@ -61,16 +67,16 @@ authRouter.post("/login", async (req, res) => {
   }
 });
 
-authRouter.post('/logout',(req,res)=>{
-  try{
-    const {  token } = req.cookies;
-    res.cookie("token", null , {
-      expires: new Date(Date.now())
+authRouter.post("/logout", (req, res) => {
+  try {
+    const { token } = req.cookies;
+    res.cookie("token", null, {
+      expires: new Date(Date.now()),
     });
-    res.send("User Successfully Logged Out")
-  }catch(err){
-    res.status(500).send(`Error : ${err.message}`)
+    res.send("User Successfully Logged Out");
+  } catch (err) {
+    res.status(500).send(`Error : ${err.message}`);
   }
-})
+});
 
 module.exports = authRouter;

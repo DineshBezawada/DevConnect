@@ -61,8 +61,7 @@ const userSchema = new mongoose.Schema(
       type: [String],
       required: true,
       validate(value) {
-        const isValid = Array.isArray(value) && value.length > 0
-        console.log(value,"isValid")
+        const isValid = Array.isArray(value) && value.length > 0 ;
         if(!isValid){
           throw new Error("Skills are Mandatory")
          }

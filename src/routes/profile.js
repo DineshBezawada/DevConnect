@@ -19,7 +19,6 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
       throw new Error("Edit Fields are Not Matched");
     }
     const user = req.user;
-    console.log(req.body);
     Object.keys(req.body).forEach((key) => (user[key] = req.body[key]));
     await user.save();
     res.send({
