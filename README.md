@@ -384,6 +384,21 @@ S02 EP11 Diving into APIs and Express Router
 10. Test all APIs
 11. Create PATCH - ForgotPassword (update Password) and test 
 
+S02 EP12 Logical DB query and Compound Indexes
+1. Create connection Request Schema 
+2. Create connectionRequest/send/:status/:toUserId and do Proper Validation of Data
+3. $or and $and query in mongoose
+4. Explore corner cases
+  i.Allowes Status ["interested","ignored"]
+  ii.toUserId - user Exist or not
+  iii.Existing Request
+  iv.restrict req to yourself using Schema.pre() middleware.
+5. Indexing DB fields.
+6. Compound DB indexes - Read Documentation in MongoDB.
+7. Read more about indexes in MongoDB.
+8. Advantages of crating indexes 
+9. Disadvantages of creating lot of Indexes
+
 
 
 
