@@ -16,7 +16,8 @@
 - POST/request/send/ignored/:requestId -- use same api for interested and ignored 
                                     POST/request/send/:status/:reqId
 - POST/request/review/accepted/:requestId
-- POST/request/review/rejected/:requestId
+- POST/request/review/rejected/:requestId -- use same api for accepted and rejected 
+                                    POST/review/send/:status/:reqId
    
 
 ## User Router
