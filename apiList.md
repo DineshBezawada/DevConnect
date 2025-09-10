@@ -21,8 +21,9 @@
    
 
 ## User Router
-- GET/connections
-- GET/requests/received
-- GET/feed - Gets you the Profiles of the users in the Platform
+- GET /user/requests/requested
+- GET /user/connections
+- GET /feed - Gets you the Profiles of the users in the Platform
 
 Status : ignore,interested, accepted, rejected
+ 

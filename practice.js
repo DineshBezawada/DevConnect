@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     validate() {},
+    index: true
   },
   password: {
     type: String,
