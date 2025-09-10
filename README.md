@@ -400,6 +400,10 @@ S02 EP12 Logical DB query and Compound Indexes
 9. Disadvantages of creating lot of Indexes
 
 
-
-
+S02 E13 REF, Populatec& Thought Process of Writing API
+1. Create connectionRequest /review/:status/:reqId and do Proper Validation of Data 
+2. Read more about REF and Populate in monoose documentation
+3. Add Ref in connection Request schema and Populate Users data by using Ref and populate 
+   https://mongoosejs.com/docs/populate.html
+4. Create GET - user/connections API
 

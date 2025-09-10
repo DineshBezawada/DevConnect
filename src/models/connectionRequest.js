@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { trim } = require("validator");
 
 const connectionSchema = new mongoose.Schema(
   {
@@ -7,11 +6,13 @@ const connectionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       trim: true,
+      ref: "User" // reference to User Collection
     },
     toUserId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       trim: true,
+      ref: "User"
     },
     status: {
       type: String,

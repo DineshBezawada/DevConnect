@@ -37,9 +37,45 @@ requestRouter.post(
         return res.status(400).send("User not found");
       }
       const data = await connectionRequest.save();
-      res.send({ msg: `${req.user.firstName} is ${status} in ${toUser.firstName}` , data: data });
+      res.send({
+        msg: `${req.user.firstName} is ${status} in ${toUser.firstName}`,
+        data: data,
+      });
     } catch (err) {
-      res.status(400).status("Error : " + err.message);
+      res.status(400).send("Error : " + err.message);
+    }
+  }
+);
+
+requestRouter.post(
+  "/connectionRequest/review/:status/:reqId",
+  userAuth,
+  async (req, res) => {
+    try {
+      const loggedInUser = req.user;
+      const { reqId, status } = req.params;
+      const ALLOWED_STATUS = ["accepted", "rejected"];
+      if (!ALLOWED_STATUS.includes(status)) {
+        return res.status(400).send({ massage: `Invalid status ${status}` });
+      }
+      const connectionRequestData = await ConnectionRequest.findOne({
+        _id: reqId,
+        toUserId: loggedInUser._id,
+        status: "interested",
+      });
+
+      if (!connectionRequestData) {
+        return res.status(404).send("Connection Request not Found");
+      }
+
+      connectionRequestData.status = status;
+      const data = await connectionRequestData.save();
+      res.send({
+        message: `${loggedInUser.firstName} ${status} the Request`,
+        data: data,
+      });
+    } catch (err) {
+      res.status(400).send({ message: `ERROR : ${err.message}` });
     }
   }
 );
