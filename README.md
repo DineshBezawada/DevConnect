@@ -407,3 +407,9 @@ S02 E13 REF, Populatec& Thought Process of Writing API
    https://mongoosejs.com/docs/populate.html
 4. Create GET - user/connections API
 
+S02 E14 Building Feed and API pagination
+1. Build Feed Api (think about Logic   )
+2. Check query in MongoDB documentation (check comparision Queries $nin $ne ...etc)
+3. Check all $and $or $nin $ne all query Operators.
+
+
